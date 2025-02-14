@@ -1,5 +1,5 @@
 # Functions goes here
-def num_check(question, num_type , exit_code=None):
+def num_check(question, num_type, exit_code=None):
     """checks that the user enter th full word
     or the first letter of a word from a list of valid response"""
 
@@ -13,26 +13,35 @@ def num_check(question, num_type , exit_code=None):
 
         response = input(question).lower()
 
-        for item in valid_ans_list:
+        # check for the exit code
+        if response == exit_code:
+            return response
 
-            # check if the response is the entire word
-            if response == item:
-                return item
+        try:
+            # change the response to an integer and check that it's more than zero
+            response = change_to(response)
 
-            # check if it's the first letter
-            elif response == item[:num_letters]:
-                return item
+            if response > 0:
+                return response
+            else:
+                print(error)
 
-        print(f"Please choose an option from {valid_ans_list}")
+        except ValueError:
+            print(error)
 
-    # main routine goes here
 
+# main routine goes here
 
-yes_no_list = ['yes', 'no']
-payment_list = ['cash', 'credit']
+# loop for testing purposes...
+while True:
+    print()
 
-like_coffe = string_check("Do you like coffe?",
-                          yes_no_list, 1)
-print(f"You chose {like_coffe}")
-pay_method = string_check("Payment method: ", payment_list, 2)
-print(f"You chose {pay_method}")
+    my_float = num_check("Please enter a number more than 0: ", "float")
+    print(f"Thanks. you chose {my_float}")
+
+    my_int = num_check("How many rounds? ", "integer", "")
+    print()
+    if my_int == "":
+        print("You have chosen infinite mode.")
+    else:
+        print(f"Thanks. You chose {my_int}")
